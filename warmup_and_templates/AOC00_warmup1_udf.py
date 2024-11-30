@@ -39,3 +39,5 @@ def warmup1(fileurl: str) -> int:
 
 lines_df = session.sql("""select warmup1(build_scoped_file_url(@aoc_files_stage, 'warmup1_example.txt')) as lines""")
 lines_df.show()
+
+session.close()
