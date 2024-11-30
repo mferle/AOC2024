@@ -1,2 +1,4 @@
 .venv
 random
+_pycache_
+*.pyc
