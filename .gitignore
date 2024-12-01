@@ -2,4 +2,4 @@
 random
 _pycache_
 *.pyc
-AOC01
+*input.txt
