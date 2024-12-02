@@ -13,7 +13,7 @@ create warehouse aoc_wh;
 
 -- grant usage on the database, schema, and warehouse to the role
 use role sysadmin;
-grant usage on database aoc2024_db to role aoc_developer;
+grant all on database aoc2024_db to role aoc_developer;
 grant all on schema aoc to role aoc_developer;
 grant usage on warehouse aoc_wh to role aoc_developer;
 
