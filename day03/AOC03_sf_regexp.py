@@ -10,16 +10,13 @@ session = Session.builder.config("connection_name", "aoc_connection").create()
 #session.file.put("AOC03_input.txt", "@aoc_files_stage", auto_compress=False)
 
 # register a permanent stored procedure
-"""
 @sproc(is_permanent=True, 
        name="AOC03_s", 
        replace=True, 
        stage_location="@aoc_dev_stage", 
        packages=['snowflake-snowpark-python'])
-"""
 def AOC03_s(session: Session, file_name: str) -> str:
     from snowflake.snowpark.types import StructType, StructField, StringType
-    from AOC03_part1_part2 import Part1Part2
 
     schema_for_csv = StructType([
                           StructField("PROGRAM", StringType())
@@ -65,10 +62,10 @@ def AOC03_s(session: Session, file_name: str) -> str:
     return_msg = f"Part 1 answer = {part1_answer}"
     return return_msg
 
-#lines_df = session.sql("""call AOC03_s('AOC03_example.txt')""")
-#lines_df.show()
+lines_df = session.sql("""call AOC03_s('AOC03_example.txt')""")
+lines_df.show()
 
 # to test locally, comment the previous two lines and the sproc decorator
-print(AOC03_s(session, 'AOC03_example.txt'))
+#print(AOC03_s(session, 'AOC03_example.txt'))
 
 session.close()
