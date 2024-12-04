@@ -35,7 +35,7 @@ def AOC03_s(session: Session, file_name: str) -> str:
 
     # use SQL to calculate the result
     part1_answer_df = session.sql(f"""
-        with program_parts as (
+        WITH program_parts as (
             select split(program, 'mul(') as program_parts 
             from day03_program
         ),
