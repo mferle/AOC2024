@@ -30,7 +30,6 @@ def AOC03(session: Session, file_name: str) -> str:
     program = ''
     for l in df:
         program = program + l.asDict()["PROGRAM"]
-    #print(program)
 
     # instantiate the Part1Part2 class
     _Part1Part2 = Part1Part2(program)

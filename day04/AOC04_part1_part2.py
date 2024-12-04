@@ -2,44 +2,46 @@ class Part1Part2():
 
     def __init__(self, lines):
         self.lines = lines
+        self.w = len(self.lines[0])
+        self.h = len(self.lines)
     
     def part1(self) -> int:
         # initialize total
         total = 0
 
-        candidates = []
         # for each cell in the grid
-        for i in range(len(self.lines[0])):
-            for j in range(len(self.lines)):
+        for i in range(self.w):
+            for j in range(self.h):
                 # always starts with X
-                if self.lines[i][j] == 'X':
-                    # find all neighbors
-                    for ii in [i-1, i, i+1]:
-                        for jj in [j-1, j, j+1]:
-                            # skip current cell
-                            if (ii, jj) != (i, j):
-                                # check if within boundaries
-                                if ii >= 0 and ii < len(self.lines[0]) and jj >= 0 and jj < len(self.lines):
-                                    # if neighbor is M, add to candidates
-                                    if self.lines[ii][jj] == 'M':
-                                        candidates.append([(i, j), (ii, jj)])
-
-        # loop for all candidates
-        for cnd in candidates:
-            # calculate the vector
-            vector = (cnd[1][0] - cnd[0][0], cnd[1][1] - cnd[0][1])
-            # calculate position of A
-            ia = cnd[1][0] + vector[0]
-            ja = cnd[1][1] + vector[1]
-            # check if position is within boundaries
-            if ia >= 0 and ia < len(self.lines[0]) and ja >= 0 and ja < len(self.lines):
-                # if the value is A, continue searching for S
-                if self.lines[ia][ja] == 'A':
-                    # calculate position of S
-                    iis = ia + vector[0]
-                    js = ja + vector[1]
-                    # check if position is within boundaries
-                    if iis >= 0 and iis < len(self.lines[0]) and js >= 0 and js < len(self.lines):
+                if self.lines[i][j] != 'X':
+                    continue
+                # find all neighbors
+                for ii in [i-1, i, i+1]:
+                    for jj in [j-1, j, j+1]:
+                        # skip current cell
+                        if (ii, jj) == (i, j):
+                            continue
+                        # check if within boundaries
+                        if ii < 0 or ii >= self.w or jj < 0 or jj >= self.h:
+                            continue
+                        # check if neighbor is M
+                        if self.lines[ii][jj] != 'M':
+                            continue
+                        # found M, now calculate the vector and continue in the same direction
+                        vector = (ii - i, jj - j)
+                        # calculate position of A
+                        (ia, ja) = (ii + vector[0], jj + vector[1])
+                        # check if position is within boundaries
+                        if ia < 0 or ia >= self.w or ja < 0 or ja >= self.h:
+                            continue
+                        # check if value is A
+                        if self.lines[ia][ja] != 'A':
+                            continue
+                        # calculate position of S
+                        (iis, js) = (ia + vector[0], ja + vector[1])
+                        # check if position is within boundaries
+                        if iis < 0 or iis >= self.w or js < 0 or js >= self.h:
+                            continue
                         # if the value is S, add to total
                         if self.lines[iis][js] == 'S':
                             total += 1
@@ -50,8 +52,8 @@ class Part1Part2():
         total = 0
 
         # for each cell in the grid
-        for i in range(len(self.lines[0])):
-            for j in range(len(self.lines)):
+        for i in range(self.w):
+            for j in range(self.h):
                 # look for A
                 if self.lines[i][j] == 'A':
                     #print(i, j)
@@ -61,10 +63,10 @@ class Part1Part2():
                     bot_left = (i-1, j+1)
                     bot_rght = (i+1, j+1)
                     # check if neighbors are within boundaries
-                    if    top_left[0] >= 0 and top_left[0] < len(self.lines[0]) and top_left[1] >= 0 and top_left[1] < len(self.lines) \
-                      and top_rght[0] >= 0 and top_rght[0] < len(self.lines[0]) and top_rght[1] >= 0 and top_rght[1] < len(self.lines) \
-                      and bot_left[0] >= 0 and bot_left[0] < len(self.lines[0]) and bot_left[1] >= 0 and bot_left[1] < len(self.lines) \
-                      and bot_rght[0] >= 0 and bot_rght[0] < len(self.lines[0]) and bot_rght[1] >= 0 and bot_rght[1] < len(self.lines):
+                    if    top_left[0] >= 0 and top_left[0] < self.w and top_left[1] >= 0 and top_left[1] < self.h \
+                      and top_rght[0] >= 0 and top_rght[0] < self.w and top_rght[1] >= 0 and top_rght[1] < self.h \
+                      and bot_left[0] >= 0 and bot_left[0] < self.w and bot_left[1] >= 0 and bot_left[1] < self.h \
+                      and bot_rght[0] >= 0 and bot_rght[0] < self.w and bot_rght[1] >= 0 and bot_rght[1] < self.h:
                         # check diagonals, must be M and S or S and M on each diagonal
                         if   ((self.lines[top_left[0]][top_left[1]] == 'M' and self.lines[bot_rght[0]][bot_rght[1]] == 'S') \
                            or (self.lines[top_left[0]][top_left[1]] == 'S' and self.lines[bot_rght[0]][bot_rght[1]] == 'M')) \
