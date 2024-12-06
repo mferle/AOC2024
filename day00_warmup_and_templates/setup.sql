@@ -18,6 +18,7 @@ grant all on schema aoc to role aoc_developer;
 grant usage on warehouse aoc_wh to role aoc_developer;
 
 -- create an internal stage for data files
+use role aoc_developer;
 create or replace stage aoc_files_stage;
 
 -- create an internal stage for Python code
