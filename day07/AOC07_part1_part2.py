@@ -31,18 +31,18 @@ class Part1Part2():
 
                 # if there are only two operands left, check if it can be solved
                 if len(operands) == 2:
-                    if '+' in operators and op0 + op1 == test_value:
+                    if op0 + op1 == test_value:
                         already_solved.append(test_value)
-                    elif '*' in operators and op0 * op1 == test_value:
+                    elif op0 * op1 == test_value:
                         already_solved.append(test_value)
                     elif '||' in operators and int(str(op0)+str(op1)) == test_value:
                         already_solved.append(test_value)
                 # otherwise add to the working list
                 else:
                     # add new operands to working list if the new operand is less than the test value
-                    if '+' in operators and op0 + op1 <= test_value:
+                    if op0 + op1 <= test_value:
                         we.append((test_value, [op0 + op1] + operands[2:]))
-                    if '*' in operators and op0 * op1 <= test_value:
+                    if op0 * op1 <= test_value:
                         we.append((test_value, [op0 * op1] + operands[2:]))
                     if '||' in operators and int(str(op0)+str(op1)) <= test_value:
                         we.append((test_value, [int(str(op0)+str(op1))] + operands[2:]))

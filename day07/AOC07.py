@@ -39,7 +39,7 @@ def AOC07(session: Session, fileurl: str) -> str:
     return_msg = f"Part 1 answer = {part1_answer}\nPart 2 answer = {part2_answer}"
     return return_msg
 
-lines_df = session.sql("""call AOC07(build_scoped_file_url(@aoc_files_stage, 'AOC07_input.txt'))""")
+lines_df = session.sql("""call AOC07(build_scoped_file_url(@aoc_files_stage, 'AOC07_example.txt'))""")
 lines_df.show()
 
 # to test locally, comment the previous two lines and the sproc decorator
