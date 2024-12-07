@@ -9,7 +9,6 @@ session = Session.builder.config("connection_name", "aoc_connection").create()
 #session.file.put("AOC07_input.txt", "@aoc_files_stage", auto_compress=False, overwrite=True)
 
 # register a permanent stored procedure
-
 @sproc(is_permanent=True, 
        name="AOC07_ingest", 
        replace=True, 
@@ -25,7 +24,9 @@ def AOC07_ingest(session: Session, file_name: str) -> str:
                        ])
 
     # read the file into a data frame using the file format
-    df = session.read.with_metadata(METADATA_FILE_ROW_NUMBER.as_("RN")).option("field_delimiter", ":").schema(schema_for_csv).csv(f"@aoc_files_stage/{file_name}")
+    df = session.read.with_metadata(METADATA_FILE_ROW_NUMBER.as_("RN")) \
+        .option("field_delimiter", ":") \
+        .schema(schema_for_csv).csv(f"@aoc_files_stage/{file_name}")
 
     # save the data frame as a Snowflake table
     table_name = file_name.split('.')[0]
@@ -33,10 +34,10 @@ def AOC07_ingest(session: Session, file_name: str) -> str:
 
     return 'Success'
 
-#lines_df = session.sql("""call AOC07_ingest('AOC07_example.txt')""")
-#lines_df.show()
+lines_df = session.sql("""call AOC07_ingest('AOC07_example.txt')""")
+lines_df.show()
 
 # to test locally, comment the previous two lines and the sproc decorator
-print(AOC07_ingest(session, 'AOC07_example.txt'))
+#print(AOC07_ingest(session, 'AOC07_example.txt'))
 
 session.close()
