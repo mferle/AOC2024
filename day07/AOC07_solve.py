@@ -32,6 +32,8 @@ def AOC07_solve(session: Session, table_name: str, all_groups: int, group: int) 
     #return_msg = f"Part 1 answer = {part1_answer}\nPart 2 answer = {part2_answer}"
     return part1_answer
 
+start_time = time.time()
+
 # submit 4 jobs asynchronously
 async_job1 = session.sql("""call AOC07_solve('AOC07_input', 4, 0)""").collect_nowait()
 async_job2 = session.sql("""call AOC07_solve('AOC07_input', 4, 1)""").collect_nowait()
@@ -66,5 +68,6 @@ total += async_job2.result()[0].asDict()["AOC07_SOLVE"]
 total += async_job3.result()[0].asDict()["AOC07_SOLVE"]
 total += async_job4.result()[0].asDict()["AOC07_SOLVE"]
 print(total)
+print("--- %s seconds ---" % (time.time() - start_time))
 
 session.close()
