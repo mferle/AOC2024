@@ -1,8 +1,9 @@
 class Part1Part2():
 
-    def __init__(self, stones):
+    def __init__(self, line):
+        # initialize dictionary of stones and their counts
         self.stones_dict = {}
-        for stone in stones.split():
+        for stone in line.split():
             if stone in self.stones_dict.keys():
                 self.stones_dict[stone] = self.stones_dict[stone] + 1
             else:
