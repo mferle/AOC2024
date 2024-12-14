@@ -24,6 +24,7 @@ class Part1Part2():
 
     def part1(self) -> int:
         total = 0
+        total2 = 0
         # initialize plot
         plots = []
 
@@ -113,13 +114,41 @@ class Part1Part2():
                 else:
                     if self.lines[p[0]][p[1]-1] != plant:
                         perimeter += 1
-            # add to total
+            # add to total for part 1
             total += perimeter * len(one_plot)
 
-        return total
+            # calculate perimeter for part 2
+            perimeter_count = 0
+            for p in one_plot:
+                i, j = p[0], p[1]
+                # check if outside corner
+                if ((i+1, j+1) not in one_plot) and ((i+1, j) not in one_plot) and ((i, j+1) not in one_plot):
+                    perimeter_count += 1
+                if ((i-1, j-1) not in one_plot) and ((i-1, j) not in one_plot) and ((i, j-1) not in one_plot):
+                    perimeter_count += 1
+                if ((i+1, j-1) not in one_plot) and ((i+1, j) not in one_plot) and ((i, j-1) not in one_plot):
+                    perimeter_count += 1
+                if ((i-1, j+1) not in one_plot) and ((i-1, j) not in one_plot) and ((i, j+1) not in one_plot):
+                    perimeter_count += 1
+                # check if inside corner
+                if ((i+1, j+1) not in one_plot) and ((i+1, j) in one_plot) and ((i, j+1) in one_plot):
+                    perimeter_count += 1
+                if ((i-1, j-1) not in one_plot) and ((i-1, j) in one_plot) and ((i, j-1) in one_plot):
+                    perimeter_count += 1
+                if ((i+1, j-1) not in one_plot) and ((i+1, j) in one_plot) and ((i, j-1) in one_plot):
+                    perimeter_count += 1
+                if ((i-1, j+1) not in one_plot) and ((i-1, j) in one_plot) and ((i, j+1) in one_plot):
+                    perimeter_count += 1
+                # check if diagonal
+                if ((i+1, j+1) in one_plot) and ((i+1, j) not in one_plot) and ((i, j+1) not in one_plot):
+                    perimeter_count += 1
+                if ((i-1, j-1) in one_plot) and ((i-1, j) not in one_plot) and ((i, j-1) not in one_plot):
+                    perimeter_count += 1
+                if ((i+1, j-1) in one_plot) and ((i+1, j) not in one_plot) and ((i, j-1) not in one_plot):
+                    perimeter_count += 1
+                if ((i-1, j+1) in one_plot) and ((i-1, j) not in one_plot) and ((i, j+1) not in one_plot):
+                    perimeter_count += 1
 
-    def part2(self) -> int:
-        total = 0
-        # didn't do Part 2
-
-        return total
+            total2 += perimeter_count * len(one_plot)
+ 
+        return total, total2
