@@ -5,8 +5,8 @@ from snowflake.snowpark.functions import sproc
 session = Session.builder.config("connection_name", "aoc_connection").create()
 
 # upload the data files to the internal stage - only needed once, then comment
-#session.file.put("AOC09_example.txt", "@aoc_files_stage", auto_compress=False, overwrite=True)
-#session.file.put("AOC09_input.txt", "@aoc_files_stage", auto_compress=False, overwrite=True)
+session.file.put("AOC09_example.txt", "@aoc_files_stage", auto_compress=False, overwrite=True)
+session.file.put("AOC09_input.txt", "@aoc_files_stage", auto_compress=False, overwrite=True)
 
 # register a permanent stored procedure
 @sproc(is_permanent=True, 
