@@ -1,38 +1,11 @@
 from collections import defaultdict
+from AOCutil_read_maze import read_maze
+
 class Part1Part2():
 
     def __init__(self, lines):
-        self.w = len(lines[0])
-        self.h = len(lines)
-
-        # initialize maze
-        self.maze = {}
-        # parse input into maze and mark start and end position
-        for j, l in enumerate(lines):
-            for i, c in enumerate(l):
-                self.maze[(i, j)] = c 
-            # mark the start position
-                if c == 'S':
-                    self.start_pos = (i, j)
-                    self.start_fac = (1, 0)
-            # mark the end position
-                if c == 'E':
-                    self.end_pos = (i, j)
-
-    def print_maze(self, maze, S, E):
-        for j in range(self.h):
-            one_line = ''
-            for i in range(self.w):
-                if S == (i, j):
-                    one_line = one_line + 'S'
-                elif E == (i, j):
-                    one_line = one_line = one_line + 'E'
-                else:
-                    if (i, j) in maze:
-                        one_line = one_line + '#'
-                    else:
-                        one_line = one_line + '.'
-            print(one_line)
+        self.maze, self.start_pos, self.end_pos = read_maze(lines)
+        self.start_fac = (1, 0)
 
     def find_lowest(self):
         # initialize position and facing

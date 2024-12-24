@@ -5,20 +5,19 @@ from snowflake.snowpark.functions import sproc
 session = Session.builder.config("connection_name", "aoc_connection").create()
 
 # upload the data files to the internal stage - only needed once, then comment
-#session.file.put("AOC16_example.txt", "@aoc_files_stage", auto_compress=False, overwrite=True)
-#session.file.put("AOC16_input.txt", "@aoc_files_stage", auto_compress=False, overwrite=True)
-session.file.put("AOCutil_read_maze.py", "@aoc_files_stage/util", auto_compress=False, overwrite=True)
+session.file.put("AOC20_example.txt", "@aoc_files_stage", auto_compress=False, overwrite=True)
+session.file.put("AOC20_input.txt", "@aoc_files_stage", auto_compress=False, overwrite=True)
 
 # register a permanent stored procedure
 @sproc(is_permanent=True, 
-       name="AOC16", 
+       name="AOC20", 
        replace=True, 
        stage_location="@aoc_dev_stage", 
        packages=['snowflake-snowpark-python'],
-       imports=['AOC16_part1_part2.py', '@aoc_files_stage/util/AOCutil_read_maze.py'])
-def AOC16(session: Session, fileurl: str) -> str:
+       imports=['AOC20_part1_part2.py', '@aoc_files_stage/util/AOCutil_read_maze.py'])
+def AOC20(session: Session, fileurl: str) -> str:
     from snowflake.snowpark.files import SnowflakeFile
-    from AOC16_part1_part2 import Part1Part2
+    from AOC20_part1_part2 import Part1Part2
 
     # open the file and read the contents into a list by splitting on CRLF
     with SnowflakeFile.open(fileurl) as f:
@@ -40,10 +39,10 @@ def AOC16(session: Session, fileurl: str) -> str:
     return_msg = f"Part 1 answer = {part1_answer}\nPart 2 answer = {part2_answer}"
     return return_msg
 
-lines_df = session.sql("""call AOC16(build_scoped_file_url(@aoc_files_stage, 'AOC16_input.txt'))""")
+lines_df = session.sql("""call AOC20(build_scoped_file_url(@aoc_files_stage, 'AOC20_input.txt'))""")
 lines_df.show()
 
 # to test locally, comment the previous two lines and the sproc decorator
-#print(AOC16(session, 'AOC16_input.txt'))
+#print(AOC20(session, 'AOC20_input.txt'))
 
 session.close()
