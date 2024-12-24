@@ -7,7 +7,7 @@ session = Session.builder.config("connection_name", "aoc_connection").create()
 # upload the data files to the internal stage - only needed once, then comment
 #session.file.put("AOC16_example.txt", "@aoc_files_stage", auto_compress=False, overwrite=True)
 #session.file.put("AOC16_input.txt", "@aoc_files_stage", auto_compress=False, overwrite=True)
-session.file.put("AOCutil_read_maze.py", "@aoc_files_stage/util", auto_compress=False, overwrite=True)
+session.file.put("AOCutil_read_maze.py", "@aoc_util_stage", auto_compress=False, overwrite=True)
 
 # register a permanent stored procedure
 @sproc(is_permanent=True, 
@@ -15,7 +15,7 @@ session.file.put("AOCutil_read_maze.py", "@aoc_files_stage/util", auto_compress=
        replace=True, 
        stage_location="@aoc_dev_stage", 
        packages=['snowflake-snowpark-python'],
-       imports=['AOC16_part1_part2.py', '@aoc_files_stage/util/AOCutil_read_maze.py'])
+       imports=['AOC16_part1_part2.py', '@aoc_util_stage/AOCutil_read_maze.py'])
 def AOC16(session: Session, fileurl: str) -> str:
     from snowflake.snowpark.files import SnowflakeFile
     from AOC16_part1_part2 import Part1Part2

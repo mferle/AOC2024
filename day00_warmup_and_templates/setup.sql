@@ -23,3 +23,13 @@ create or replace stage aoc_files_stage;
 
 -- create an internal stage for Python code
 create or replace stage aoc_dev_stage;
+
+-- grant the execute task privilege to the aoc_developer role using the accountadmin role
+use role accountadmin;
+grant execute task on account to role aoc_developer;
+-- switch back to the aoc_developer role
+use role aoc_developer;
+
+-- create an internal stage for the shared Python code
+create or replace stage aoc_util_stage;
+

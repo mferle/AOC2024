@@ -14,7 +14,7 @@ session.file.put("AOC20_input.txt", "@aoc_files_stage", auto_compress=False, ove
        replace=True, 
        stage_location="@aoc_dev_stage", 
        packages=['snowflake-snowpark-python'],
-       imports=['AOC20_part1_part2.py', '@aoc_files_stage/util/AOCutil_read_maze.py'])
+       imports=['AOC20_part1_part2.py', '@aoc_util_stage/AOCutil_read_maze.py'])
 def AOC20(session: Session, fileurl: str) -> str:
     from snowflake.snowpark.files import SnowflakeFile
     from AOC20_part1_part2 import Part1Part2
