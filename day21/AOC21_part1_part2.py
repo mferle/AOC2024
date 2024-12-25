@@ -99,4 +99,6 @@ class Part1Part2():
     def part2(self) -> str:
         total = 0
 
+        # ToDo
+
         return total
