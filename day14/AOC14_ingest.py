@@ -35,3 +35,33 @@ lines_df = session.sql("""call AOC14_p('AOC14_input.txt')""")
 lines_df.show()
 
 session.close()
+
+# Perform the following statements in a Snowflake worksheet
+# parse the ingested data into the px, py, vx, and vy columns
+"""
+create or replace view day14_robots_v as
+select 
+  split_part(replace(position, 'p=', ''), ',', 1)::integer as px, 
+  split_part(replace(position, 'p=', ''), ',', 2)::integer as py, 
+  split_part(replace(velocity, 'v=', ''), ',', 1)::integer as vx,
+  split_part(replace(velocity, 'v=', ''), ',', 2)::integer as vy
+from day14_robots;
+"""
+
+# transform the data for visualization
+"""
+create or replace view day14_robots_final as
+with newpxpy as (
+  select (px + (7569 * vx)) % 101 as new_px, 
+    (py + (7569 * vy)) % 103 as new_py
+  from day14_robots_v
+),
+neg_mod as (
+  select
+    case when new_px < 0 then 101 + new_px else new_px end as px,
+    case when new_py < 0 then 103 + new_py else new_py end as py
+  from newpxpy
+)
+select px, 103-py-1 as py
+from neg_mod;
+"""
